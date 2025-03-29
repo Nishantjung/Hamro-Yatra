@@ -41,7 +41,9 @@ const searchHotels = async (req, res) => {
       return res.status(200).json(haveHotel);
     }
     const urlResponse = await axios.get(
-      `https://www.booking.com/searchresults.en-gb.html?ss=${req.query.destination}&checkin=2023-05-28&checkout=2023-05-29&group_adults=1&no_rooms=1&group_children=0&sb_travel_purpose=leisure`
+   
+      `https://www.booking.com/searchresults.html?ss=${req.query.destination}&ssne=${req.query.destination}&ssne_untouched=${req.query.destination}&efdco=1&label=gen173nr-1FCAEoggI46AdIM1gEaKsBiAEBmAExuAEXyAEM2AEB6AEB-AECiAIBqAIDuALLiKG_BsACAdICJGQyMDkyZjU2LThhYTYtNDA0MS1hYzMzLTgyMmM4Zjc1MzA2YtgCBeACAQ&aid=304142&lang=en-us&sb=1&src_elem=sb&src=searchresults&dest_id=-1022136&dest_type=city&checkin=2025-10-08&checkout=2025-10-09&group_adults=2&no_rooms=1&group_children=0`
+   
     );
     const $ = cheerio.load(urlResponse.data);
     await Promise.all(
@@ -64,7 +66,7 @@ const searchHotels = async (req, res) => {
           .text();
 
         const url = $(element)
-          .find(".d20f4628d0>.f9d4f2568d>.c90a25d457>a")
+          .find('[data-testid="title-link"]')
           .attr("href");
 
         hotels.push({
