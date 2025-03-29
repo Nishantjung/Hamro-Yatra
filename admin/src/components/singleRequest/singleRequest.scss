@@ -1,0 +1,85 @@
+.single-request {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  //   align-items: center;
+
+  .single-request-container {
+    display: flex;
+    gap: 10px;
+
+    .left {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+
+      .front {
+        flex: 1;
+
+        img {
+          height: 500px;
+          width: 700px;
+        }
+      }
+
+      .back {
+        flex: 1;
+        img {
+          height: 500px;
+          width: 700px;
+        }
+      }
+    }
+    .right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      .profile {
+        img {
+          height: 500px;
+          width: 500px;
+          object-fit: cover;
+        }
+        .details {
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          text-align: left;
+
+          span {
+            font-weight: normal;
+          }
+        }
+      }
+      .button {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        gap: 25%;
+
+        .revoke {
+          width: 100px;
+          height: 30px;
+          border: none;
+          background-color: rgb(226, 156, 156);
+          color: white;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+        .approve {
+          width: 100px;
+          height: 30px;
+          border: none;
+          background-color: rgb(123, 218, 123);
+          color: white;
+          cursor: pointer;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+}

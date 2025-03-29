@@ -1,0 +1,9 @@
+@import "../../style.scss";
+.newsfeed{
+    @include themify($themes){
+        background-color: themed("bgSoft");
+        color: themed("textColor");
+        padding: 20px 40px;
+        border-right: 1px solid themed("textColorSoft");
+    }
+}

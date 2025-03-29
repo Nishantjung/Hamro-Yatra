@@ -1,0 +1,55 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  
+  
+
+  .home-container {
+    display: flex;
+    padding-top: 200px;
+    padding-left: 50px;
+
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      height: 40rem;
+
+      .heading-message {
+        color: black;
+        font-size: 40px;
+
+        .travel {
+          color: #7209b7;
+        }
+
+        .sathi {
+          color: #4cc9f0;
+        }
+      }
+
+      .content-message {
+        color: #0d4280;
+        font-size: x-large;
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+
+        button {
+          font-size: medium;
+          height: 40px;
+          width: 100px;
+          background-color: #7209b7;
+          color: white;
+          border: none;
+        }
+      }
+    }
+    .image{
+        position:absolute;
+        right: 0px;
+        top: 50px;
+        
+    }
+  }
+}
