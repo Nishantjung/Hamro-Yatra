@@ -21,6 +21,7 @@ const register = async (req, res) => {
       birthDate: req.body.birthDate,
       gender: req.body.gender,
       address: req.body.address,
+      status:'not-verified'
     })
       .then(() => res.status(200).json("Users has been created"))
       .catch((err) => {

@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import EditIcon from "@mui/icons-material/Edit";
 import EditEvent from "../editEvent/EditEvent";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { redirect } from "react-router-dom";
 
 export default function EventSettings({ event }) {
   console.log(event);
@@ -39,8 +40,10 @@ export default function EventSettings({ event }) {
   };
 
   const handleCancel = async () => {
+    console.log("clicked");
     window.confirm("Are you sure you want to cancel the Event?");
     await makeRequest.put("/events/cancel?eventId=" + event.id);
+    window.location.href = "/";
   };
 
   return (
@@ -55,7 +58,7 @@ export default function EventSettings({ event }) {
             <span>Edit Details</span>
             <EditIcon />
           </div>
-          <div className="item" onClick={() => handleCancel}>
+          <div className="item" onClick={() => handleCancel()}>
             <span>Cancel Event</span>
             <CancelIcon />
           </div>

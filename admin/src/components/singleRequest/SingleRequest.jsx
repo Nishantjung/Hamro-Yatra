@@ -9,9 +9,9 @@ export default function SingleRequest() {
   const details = location.state;
 
   const { isLoading, error, data } = useQuery(
-    ["users", details.Users.id],
+    ["users", details.User.id],
     async () => {
-      const res = await makeRequest.get("/users/find/" + details.Users.id);
+      const res = await makeRequest.get("/users/find/" + details.User.id);
       return res.data[0];
     }
   );
@@ -40,12 +40,14 @@ export default function SingleRequest() {
 
   const handleApprove = (e) => {
     e.preventDefault();
-    mutation.mutate(details.Users.id);
+    window.confirm("Are you sure you want to approve?");
+    mutation.mutate(details.User.id);
+    window.location.href = "/verification";
   };
 
   const handleRevoke = (e) => {
     e.preventDefault();
-    Revokemutation.mutate(details.Users.id);
+    Revokemutation.mutate(details.User.id);
   };
   return (
     <div className="single-request">
@@ -63,7 +65,7 @@ export default function SingleRequest() {
         <div className="right">
           <h4>Profile Details</h4>
           <div className="profile">
-            <img src={"/upload/" + details.Users.profilePicture} alt="" />
+            <img src={"/upload/" + details.User.profilePicture} alt="" />
             <div className="details">
               <h4>
                 Name: <span>{data?.username}</span>

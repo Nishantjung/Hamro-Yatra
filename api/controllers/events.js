@@ -63,16 +63,14 @@ const editEvents = async (req, res) => {
 
 const cancelEvent = async (req, res) => {
   try {
-    await Events.update(
-      {
-        completionEvent: "Cancelled",
-      },
+    await Events.destroy(
       {
         where: { id: req.query.eventId },
       }
     );
     return res.status(200).json("Events has been cancelled");
   } catch (error) {
+    console.log(error)
     return res.status(500).json(error);
   }
 };

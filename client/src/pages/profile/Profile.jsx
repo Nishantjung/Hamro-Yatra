@@ -158,7 +158,7 @@ export default function Profile() {
               )}
             </>
           ) : !!data.status &&
-            data.status === "not verified" &&
+            data.status === "not-verified" &&
             userId === currentUser.id ? (
             <>
               <button

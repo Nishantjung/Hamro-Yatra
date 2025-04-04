@@ -2,7 +2,7 @@ export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
     field: "username",
-    headerName: "Users Name",
+    headerName: "User Name",
     width: 200,
     renderCell: (params) => {
       return (
@@ -88,11 +88,11 @@ export const eventsColumn = [
       return (
         <div className="cellWithImg">
           <img
-            src={"/upload/" + params.row.Users.profilePicture}
+            src={"/upload/" + params.row.User.profilePicture}
             alt=""
             className="cellImg"
           />
-          {params.row.Users.username}
+          {params.row.User.username}
         </div>
       );
     },
@@ -159,17 +159,17 @@ export const paymentColumns = [
   },
   {
     field: "username",
-    headerName: "Users Name",
+    headerName: "User Name",
     width: 200,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={"/upload/" + params.row.Users.profilePicture}
+            src={"/upload/" + params.row.User.profilePicture}
             alt="avatar"
           />
-          {params.row.Users.username}
+          {params.row.User.username}
         </div>
       );
     },
@@ -207,17 +207,17 @@ export const verificationColumn = [
   },
   {
     field: "username",
-    headerName: " Users Name",
+    headerName: " User Name",
     width: 300,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
           <img
-            src={"/upload/" + params.row.Users.profilePicture}
+            src={"/upload/" + params.row.User.profilePicture}
             alt=""
             className="cellImg"
           />
-          {params.row.Users.username}
+          {params.row.User.username}
         </div>
       );
     },

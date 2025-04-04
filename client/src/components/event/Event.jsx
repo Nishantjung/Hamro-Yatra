@@ -6,6 +6,7 @@ import { AuthContext } from "../../context/authContext";
 import { SocketContext } from "../../context/socketContext";
 import "./event.scss";
 import { ToastContainer, toast } from "react-toastify";
+import EditEvent from "../editEvent/EditEvent";
 
 export default function Event({ event, own }) {
   const { currentUser } = useContext(AuthContext);
@@ -18,6 +19,7 @@ export default function Event({ event, own }) {
   });
 
   const [joined, setJoined] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
   const { socket } = useContext(SocketContext);
 
   const handleClick = async (e) => {
@@ -47,7 +49,7 @@ export default function Event({ event, own }) {
         <div className="actions">
           {own ? (
             <>
-              <button>Edit</button>
+              <button onClick={() => setEditDialogOpen(true)}>Edit</button>
               <Link to={"/eventDetails/" + event.id}>
                 <button>See Details</button>
               </Link>
@@ -66,6 +68,9 @@ export default function Event({ event, own }) {
                 <button>See Details</button>
               </Link>
             </>
+          )}
+          {editDialogOpen && (
+            <EditEvent event={event} setEditDialogOpen={setEditDialogOpen} />
           )}
         </div>
       </div>
