@@ -7,6 +7,10 @@ import { AuthContext } from "../../context/authContext";
 import { useLocation } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import sha256 from "crypto-js/sha256";
+import Base64 from "crypto-js/enc-base64";
+import { HmacSHA256 } from "crypto-js";
+
 export default function Payment() {
   const { currentUser } = useContext(AuthContext);
   const eventId = parseInt(useLocation().pathname.split("/")[2]);
@@ -56,43 +60,6 @@ export default function Payment() {
     });
   };
 
-  //khalti
-  let config = {
-    publicKey: "test_public_key_59762546569c450fac1f0bdf7ca33d8d",
-    productIdentity: "1234567890",
-    productName: "Dragon",
-    productUrl: "http://gameofthrones.wikia.com/wiki/Dragons",
-    eventHandler: {
-      onSuccess: async (payload) => {
-        const res = await makeRequest.post(
-          "/events/payments?eventId=" + eventId,
-          {
-            token: payload.token,
-            amount: payload.amount,
-          }
-        );
-        if (res) toast.success("Payment Successful!");
-      },
-      // onError handler is optional
-      onError(error) {
-        // handle errors
-        console.log(error);
-      },
-      onClose() {
-        console.log("widget is closing");
-      },
-    },
-    paymentPreference: [
-      "KHALTI",
-      "EBANKING",
-      "MOBILE_BANKING",
-      "CONNECT_IPS",
-      "SCT",
-    ],
-  };
-
-  let checkout = new KhaltiCheckout(config);
-
   //event data fetching
   const { isLoading, error, data } = useQuery(["events"], async () => {
     const res = await makeRequest.get("/events/" + eventId);
@@ -108,10 +75,6 @@ export default function Payment() {
     expenseData.reduce((total, item) => total + item.amount, 0) /
       data?.members?.length;
 
-  const handlePayment = (e) => {
-    checkout.show({ amount: 2000 });
-  };
-
   const {
     isLoading: paymentLoding,
     error: paymentError,
@@ -121,10 +84,89 @@ export default function Payment() {
     return res.data;
   });
 
+  var currentTime = new Date();
+  var formattedTime =
+    currentTime.toISOString().slice(2, 10).replace(/-/g, "") +
+    "-" +
+    currentTime.getHours() +
+    currentTime.getMinutes() +
+    currentTime.getSeconds();
+
+  var hash = HmacSHA256(
+    `total_amount=${share},transaction_uuid=${formattedTime},product_code=EPAYTEST`,
+    "8gBm/:&EnhH.1/q"
+  );
+  var hashInBase64 = Base64.stringify(hash);
+
   const hasPaid = paymentData?.some((obj) => obj.user_id === currentUser.id);
 
   return (
     <div className="payment">
+      <form
+        action="https://rc-epay.esewa.com.np/api/epay/main/v2/form"
+        method="POST"
+        id="esewa-pay"
+      >
+        <input type="text" id="amount" name="amount" value={share} />
+        <input type="text" id="tax_amount" name="tax_amount" value="0" />
+        <input
+          type="text"
+          id="total_amount"
+          name="total_amount"
+          value={share}
+        />
+        <input
+          type="text"
+          id="transaction_uuid"
+          name="transaction_uuid"
+          value={formattedTime}
+        />
+        <input
+          type="text"
+          id="product_code"
+          name="product_code"
+          value="EPAYTEST"
+        />
+        <input
+          type="text"
+          id="product_service_charge"
+          name="product_service_charge"
+          value="0"
+        />
+        <input
+          type="text"
+          id="product_delivery_charge"
+          name="product_delivery_charge"
+          value="0"
+        />
+        <input
+          type="text"
+          id="success_url"
+          name="success_url"
+          value={`http://localhost:3000/payment-success?eventId=${encodeURIComponent(
+            eventId
+          )}&amount=${encodeURIComponent(share)}`}
+        />
+        <input
+          type="text"
+          id="failure_url"
+          name="failure_url"
+          value="https://developer.esewa.com.np/failure"
+        />
+        <input
+          type="text"
+          id="signed_field_names"
+          name="signed_field_names"
+          value="total_amount,transaction_uuid,product_code"
+        />
+        <input
+          type="text"
+          id="signature"
+          name="signature"
+          value={hashInBase64}
+        />
+        <input value="Submit" type="submit" />
+      </form>
       <div className="expenses">
         <div className="expense-details">
           <h4>
@@ -141,7 +183,7 @@ export default function Payment() {
               Paid
             </button>
           ) : (
-            <button onClick={handlePayment} className="khalti-pay">
+            <button type="submit" className="khalti-pay" form="esewa-pay">
               Pay Your Share
             </button>
           )}

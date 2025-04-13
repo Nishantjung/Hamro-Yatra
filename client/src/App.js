@@ -27,6 +27,7 @@ import GroupMessages from "./components/groupMessages/GroupMessages";
 import Hotels from "./pages/hotels/Hotels";
 import { SocketContextProvider } from "./context/socketContext";
 import Feedback from "./components/feedback/Feedback";
+import PaymentSuccess from "./pages/payment-success/PaymentSuccess";
 
 function App() {
   const { currentUser } = useContext(AuthContext);
@@ -88,6 +89,7 @@ function App() {
       ],
     },
     { path: "/home", element: <Home /> },
+    { path: "/payment-success", element: <PaymentSuccess /> },
     {
       path: "/login",
       element: <Login />,

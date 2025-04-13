@@ -1,6 +1,11 @@
 @import "../../style.scss";
 
 .payment {
+
+  #esewa-pay{
+    display: none;
+  }
+
   @include themify($themes) {
     display: flex;
     flex-direction: column;
